@@ -238,7 +238,7 @@ export default class Content extends React.Component
                     <Card
                         backgroundColor="white"
                         elevation={3}
-                        height={240}
+                        height={600}
                         display="flex"
                         alignItems="center"
                         justifyContent="center"

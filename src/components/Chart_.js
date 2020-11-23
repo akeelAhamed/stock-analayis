@@ -1,17 +1,17 @@
-import React from "react";
+/* global Chart, Utils, localStorage */
 
-export default class Chart_ extends React.Component
-{
-  constructor(){
-    super();
+(function () {
+  function ScreenerException (message) {
+    this.message = message
+    this.name = 'ScreenerException'
   }
 
   // Functions for rendering tooltip
-  volumeInK (value) {
+  function volumeInK (value) {
     return value > 1000 ? Math.round(value / 1000) + 'k' : value
   }
 
-  getTooltipElements () {
+  function getTooltipElements () {
     return {
       tooltipEl: document.getElementById('chart-tooltip'),
       titleEl: document.getElementById('chart-tooltip-title'),
@@ -27,17 +27,17 @@ export default class Chart_ extends React.Component
     }
   }
 
-  getLastValue (chart, metric, asOnDate) {
-    let metricDataset = chart.data.datasets.filter((dataset) {
+  function getLastValue (chart, metric, asOnDate) {
+    var metricDataset = chart.data.datasets.filter(function (dataset) {
       return dataset.metric === metric
     })
 
     if (metricDataset.length === 0) return
     else metricDataset = metricDataset[0]
 
-    let lastValue
-    for (let index = 0; index < metricDataset.data.length; index++) {
-      let point = metricDataset.data[index]
+    var lastValue
+    for (var index = 0; index < metricDataset.data.length; index++) {
+      var point = metricDataset.data[index]
       if (point.x > asOnDate) break
       lastValue = point.y
     }
@@ -45,21 +45,21 @@ export default class Chart_ extends React.Component
     return lastValue
   }
 
-  updateTooltipText (chart, tooltipElements, tooltipModel) {
-    let titleHTML, infoHTML
-    let metaHTML = tooltipModel.dataPoints[0].label
+  function updateTooltipText (chart, tooltipElements, tooltipModel) {
+    var titleHTML, infoHTML
+    var metaHTML = tooltipModel.dataPoints[0].label
 
-    let metricPoints = {}
-    tooltipModel.dataPoints.map((dataPoint) {
-      let dataset = chart.data.datasets[dataPoint.datasetIndex]
-      let point = dataset.data[dataPoint.index]
-      let metric = dataset.metric
+    var metricPoints = {}
+    tooltipModel.dataPoints.map(function (dataPoint) {
+      var dataset = chart.data.datasets[dataPoint.datasetIndex]
+      var point = dataset.data[dataPoint.index]
+      var metric = dataset.metric
       metricPoints[metric] = point
     })
 
     if (metricPoints['Price'] && metricPoints['Volume']) {
       titleHTML = '₹ ' + metricPoints['Price'].y
-      let volumePoint = metricPoints['Volume']
+      var volumePoint = metricPoints['Volume']
       infoHTML = 'Vol: ' + volumeInK(volumePoint.y)
       if (volumePoint.meta.delivery) {
         infoHTML += '<span class="ink-700"> D: ' + volumePoint.meta.delivery + '%</span>'
@@ -71,21 +71,21 @@ export default class Chart_ extends React.Component
       infoHTML += '<br>NPM: ' + metricPoints['NPM'].y + '%'
     } else if (metricPoints['Price to Earning']) {
       titleHTML = 'PE: ' + metricPoints['Price to Earning'].y
-      let asOnDate = metricPoints['Price to Earning'].x
-      let epsValue = getLastValue(chart, 'EPS', asOnDate)
+      var asOnDate = metricPoints['Price to Earning'].x
+      var epsValue = getLastValue(chart, 'EPS', asOnDate)
       infoHTML = epsValue ? 'EPS: ' + epsValue : ''
     } else {
-      let primaryDataPoint = tooltipModel.dataPoints[0]
-      let otherDataPoints = tooltipModel.dataPoints.slice(1)
-      let activeDataset = chart.data.datasets[primaryDataPoint.datasetIndex]
+      var primaryDataPoint = tooltipModel.dataPoints[0]
+      var otherDataPoints = tooltipModel.dataPoints.slice(1)
+      var activeDataset = chart.data.datasets[primaryDataPoint.datasetIndex]
       titleHTML = activeDataset.metric + ': ' + activeDataset.data[primaryDataPoint.index].y
 
-      let infoLines = otherDataPoints.map((element) {
-        let dataset = chart.data.datasets[element.datasetIndex]
-        let point = dataset.data[element.index]
+      var infoLines = otherDataPoints.map(function (element) {
+        var dataset = chart.data.datasets[element.datasetIndex]
+        var point = dataset.data[element.index]
         return dataset.metric + ': ' + point.y
       })
-      infoHTML = infoLines.filter((line) {
+      infoHTML = infoLines.filter(function (line) {
         return line
       }).join('<br>')
     }
@@ -95,7 +95,7 @@ export default class Chart_ extends React.Component
     tooltipElements.metaEl.innerHTML = metaHTML
   }
 
-  updateTooltip (tooltipElements, tooltipModel) {
+  function updateTooltip (tooltipElements, tooltipModel) {
     // Hide if no tooltip
     if (tooltipModel.opacity === 0) {
       tooltipElements.customInfo.classList.add('invisible')
@@ -103,27 +103,27 @@ export default class Chart_ extends React.Component
     }
     tooltipElements.customInfo.classList.remove('invisible')
 
-    let primaryDataPoint = tooltipModel.dataPoints[0]
-    let chart = tooltipElements.chart
+    var primaryDataPoint = tooltipModel.dataPoints[0]
+    var chart = tooltipElements.chart
 
     // prepare text to be shown
     updateTooltipText(chart, tooltipElements, tooltipModel)
 
     // Update positions
-    let tooltipEl = tooltipElements.tooltipEl
-    let crossHair = tooltipElements.crossHair
+    var tooltipEl = tooltipElements.tooltipEl
+    var crossHair = tooltipElements.crossHair
     // Get tooltip size
-    let tipWidth = tooltipEl.offsetWidth
-    let tipHeight = tooltipEl.offsetHeight
-    let top = 10
+    var tipWidth = tooltipEl.offsetWidth
+    var tipHeight = tooltipEl.offsetHeight
+    var top = 10
     // Shift tooltip down if price line is on top
-    let verticalHalf = (chart.chartArea.bottom - chart.chartArea.top) / 2
+    var verticalHalf = (chart.chartArea.bottom - chart.chartArea.top) / 2
     if (primaryDataPoint.y < verticalHalf) top = chart.chartArea.bottom - (tipHeight + 20)
     // Keep tooltip inside chart area
-    let left = primaryDataPoint.x - (tipWidth / 2)
+    var left = primaryDataPoint.x - (tipWidth / 2)
     left = primaryDataPoint.x - (tipWidth / 2)
     if (left < chart.chartArea.left) left = chart.chartArea.left
-    let totalWidth = left + tipWidth
+    var totalWidth = left + tipWidth
     if (totalWidth > chart.chartArea.right) left = chart.chartArea.right - tipWidth
     // Set tooltip pos
     tooltipEl.style.top = top + 'px'
@@ -132,61 +132,61 @@ export default class Chart_ extends React.Component
     crossHair.style.left = primaryDataPoint.x + 'px'
   }
 
-  getStorageKey (text) {
+  function getStorageKey (text) {
     return text.toLowerCase().replace(' ', '')
   }
 
   // functions for drawing chart legend
-  legendClickCallback (chart, label, dataset) {
+  function legendClickCallback (chart, label, dataset) {
     dataset.hidden = !dataset.hidden
     chart.update()
 
     // save DMA settings
-    let rememberMetric = ['SMA50', 'SMA200']
+    var rememberMetric = ['SMA50', 'SMA200']
     if (rememberMetric.indexOf(dataset.metric) >= 0) {
-      let key = getStorageKey('show' + dataset.metric)
+      var key = getStorageKey('show' + dataset.metric)
       if (dataset.hidden) localStorage.removeItem(key)
       else Utils.localStorageSet(key, 1)
     }
   }
 
-  drawLegend (chart) {
+  function drawLegend (chart) {
     // draw left and right legend labels
-    let leftLabels = []
-    let rightLabels = []
-    chart.data.datasets.map((dataset) {
+    var leftLabels = []
+    var rightLabels = []
+    chart.data.datasets.map(function (dataset) {
       if (dataset.hidden) return
       if (dataset.yAxisID === 'y-axis-left') leftLabels.push(dataset.metric)
       else if (dataset.yAxisID === 'y-axis-right') rightLabels.push(dataset.metric)
       else console.log(dataset.metric, 'axis not found')
     })
-    let el = document.getElementById('chart-label-left')
+    var el = document.getElementById('chart-label-left')
     el.innerText = leftLabels[0]
     el = document.getElementById('chart-label-right')
-    let rightLabel = rightLabels[0]
+    var rightLabel = rightLabels[0]
     if (rightLabel === 'GPM') rightLabel = 'Margin %'
     el.innerText = rightLabel
 
     // draw legend below chart
-    let datasets = chart.data.datasets
-    let legendsEl = document.createElement('div')
+    var datasets = chart.data.datasets
+    var legendsEl = document.createElement('div')
     legendsEl.classList.add('flex')
     legendsEl.style.justifyContent = 'center'
-    chart.legend.legendItems.forEach((legendItem) {
-      let dataset = datasets[legendItem.datasetIndex]
+    chart.legend.legendItems.forEach(function (legendItem) {
+      var dataset = datasets[legendItem.datasetIndex]
 
-      let checkBox = document.createElement('input')
+      var checkBox = document.createElement('input')
       checkBox.classList.add('chart-checkbox')
       checkBox.type = 'checkbox'
       checkBox.style.background = legendItem.fillStyle
-      checkBox.addEventListener('change', (event) {
+      checkBox.addEventListener('change', function (event) {
         legendClickCallback(chart, label, dataset)
       })
       if (!legendItem.hidden) {
         checkBox.checked = true
       }
 
-      let label = document.createElement('label')
+      var label = document.createElement('label')
       label.style.boxSizing = 'border-box'
       label.style.padding = '6px 8px'
       label.style.marginRight = '16px'
@@ -194,7 +194,7 @@ export default class Chart_ extends React.Component
       label.style.fontWeight = '500'
       label.style.cursor = 'pointer'
 
-      let span = document.createElement('span')
+      var span = document.createElement('span')
       span.innerText = legendItem.text
 
       label.append(checkBox)
@@ -202,27 +202,27 @@ export default class Chart_ extends React.Component
       legendsEl.appendChild(label)
     })
 
-    let oldLegendEl = document.getElementById('chart-legend')
+    var oldLegendEl = document.getElementById('chart-legend')
     oldLegendEl.parentNode.replaceChild(legendsEl, oldLegendEl)
     legendsEl.id = 'chart-legend'
     legendsEl.style.marginTop = '2rem'
   }
 
   // Functions for rendering chart
-  updateSizes (chart, tooltipElements) {
-    let crossHair = tooltipElements.crossHair
+  function updateSizes (chart, tooltipElements) {
+    var crossHair = tooltipElements.crossHair
     crossHair.style.top = chart.chartArea.top + 'px'
-    let height = chart.chartArea.bottom - chart.chartArea.top
+    var height = chart.chartArea.bottom - chart.chartArea.top
     crossHair.style.height = height + 'px'
   }
 
-  getChartOptions (tooltipElements) {
-    let options = {
+  function getChartOptions (tooltipElements) {
+    var options = {
       hover: {
         animationDuration: 0 // disable animation on hover
       },
       maintainAspectRatio: false,
-      onResize: (chart) { updateSizes(chart, tooltipElements) },
+      onResize: function (chart) { updateSizes(chart, tooltipElements) },
       legend: {
         position: 'bottom',
         display: false
@@ -253,7 +253,7 @@ export default class Chart_ extends React.Component
       },
       tooltips: {
         enabled: false,
-        custom: (tooltipModel) {
+        custom: function (tooltipModel) {
           updateTooltip(tooltipElements, tooltipModel)
         }
       }
@@ -262,15 +262,15 @@ export default class Chart_ extends React.Component
     return options
   }
 
-  drawChart (target, chartData) {
-    let tooltipElements = getTooltipElements()
+  function drawChart (target, chartData) {
+    var tooltipElements = getTooltipElements()
     target.style.height = '375px'
-    let canvas = document.createElement('canvas')
+    var canvas = document.createElement('canvas')
     target.appendChild(canvas)
-    let ctx = canvas.getContext('2d')
-    let options = getChartOptions(tooltipElements)
+    var ctx = canvas.getContext('2d')
+    var options = getChartOptions(tooltipElements)
     options.scales.yAxes = chartData.yAxes
-    let chart = new Chart(ctx, {
+    var chart = new Chart(ctx, {
       type: 'line',
       data: {
         datasets: chartData.datasets
@@ -283,19 +283,19 @@ export default class Chart_ extends React.Component
     return chart
   }
 
-  inPercent (x) {
+  function inPercent (x) {
     return Number.parseFloat(x).toFixed(1)
   }
 
-  getDataPoints (values, isNormalized) {
-    let base = null
+  function getDataPoints (values, isNormalized) {
+    var base = null
     if (isNormalized && values.length) {
       base = values[0][1]
     }
-    let data = values.map((dateVal) {
-      let dt = dateVal[0]
-      let y = dateVal[1]
-      let meta = dateVal[2]
+    var data = values.map(function (dateVal) {
+      var dt = dateVal[0]
+      var y = dateVal[1]
+      var meta = dateVal[2]
       if (base) {
         y = inPercent(y / base * 100)
       }
@@ -308,20 +308,20 @@ export default class Chart_ extends React.Component
     return data
   }
 
-  getMinimumY (data) {
+  function getMinimumY (data) {
     if (data.length === 0) return 0
-    let minimum = data.reduce((prevMin, current) {
+    var minimum = data.reduce(function (prevMin, current) {
       return current.y < prevMin ? current.y : prevMin
     }, data[0].y)
     return minimum
   }
 
-  getYAxes (id, datasets) {
+  function getYAxes (id, datasets) {
     if (id !== 'y-axis-right' && id !== 'y-axis-left') {
-      
+      throw new ScreenerException('Y-axis id should either be y-axis-right or y-axis-left')
     }
 
-    let yAxes = {
+    var yAxes = {
       type: 'linear',
       display: true,
       position: 'right',
@@ -338,7 +338,7 @@ export default class Chart_ extends React.Component
     }
 
     // label specific configs
-    datasets.map((dataset) {
+    datasets.map(function (dataset) {
       if (dataset.metric === 'Volume') {
         yAxes.ticks = {
           callback: volumeInK
@@ -346,7 +346,7 @@ export default class Chart_ extends React.Component
       }
 
       if (dataset.metric === 'NPM') {
-        let minimumNPM = getMinimumY(dataset.data)
+        var minimumNPM = getMinimumY(dataset.data)
         if (minimumNPM < -25) {
           yAxes.ticks = {
             min: 0
@@ -355,7 +355,7 @@ export default class Chart_ extends React.Component
       }
 
       if (dataset.metric === 'EPS') {
-        let minimumEPS = getMinimumY(dataset.data)
+        var minimumEPS = getMinimumY(dataset.data)
         if (minimumEPS >= 0) {
           yAxes.ticks = {
             min: minimumEPS * 0.9
@@ -367,13 +367,13 @@ export default class Chart_ extends React.Component
     return yAxes
   }
 
-  getChartDataset (dataset, idx, state) {
-    let isNormalized = false
-    let data = getDataPoints(dataset.values, isNormalized)
+  function getChartDataset (dataset, idx, state) {
+    var isNormalized = false
+    var data = getDataPoints(dataset.values, isNormalized)
 
-    let macros = ['chartType']
+    var macros = ['chartType']
     // Default config
-    let chartDataset = {
+    var chartDataset = {
       metric: dataset.metric,
       label: dataset.label,
       data: data,
@@ -384,8 +384,8 @@ export default class Chart_ extends React.Component
     }
 
     // Label specific overrides
-    let metricConfig
-    let storageKey
+    var metricConfig
+    var storageKey
     switch (dataset.metric) {
       case 'SMA50':
         storageKey = getStorageKey('show' + dataset.metric)
@@ -474,7 +474,7 @@ export default class Chart_ extends React.Component
     }
 
     // handle macros
-    let chartType = metricConfig.chartType || chartDataset.chartType
+    var chartType = metricConfig.chartType || chartDataset.chartType
     if (chartType === 'line') {
       chartDataset.type = 'line'
       chartDataset.fill = false
@@ -494,41 +494,41 @@ export default class Chart_ extends React.Component
     }
 
     // merge metric config
-    for (let prop in metricConfig) {
+    for (var prop in metricConfig) {
       if (metricConfig.hasOwnProperty(prop)) {
         chartDataset[prop] = metricConfig[prop]
       }
     }
 
     // remove macros
-    for (let index = 0; index < macros.length; index++) {
-      let macro = macros[index]
+    for (var index = 0; index < macros.length; index++) {
+      var macro = macros[index]
       delete chartDataset[macro]
     }
 
     return chartDataset
   }
 
-  getDataForChart (state) {
-    let activeMetrics = state.metrics
+  function getDataForChart (state) {
+    var activeMetrics = state.metrics
     // select working datasets based on active metrics
-    let rawDatasets = state.rawDatasets.filter((dataset) {
+    var rawDatasets = state.rawDatasets.filter(function (dataset) {
       return activeMetrics.indexOf(dataset.metric) >= 0
     })
 
     // sort data sets by order
-    rawDatasets.sort((a, b) {
+    rawDatasets.sort(function (a, b) {
       return activeMetrics.indexOf(a.metric) - activeMetrics.indexOf(b.metric)
     })
 
-    let datasets = rawDatasets.map((dataset, idx) {
+    var datasets = rawDatasets.map(function (dataset, idx) {
       return getChartDataset(dataset, idx, state)
     })
 
     // Prepare yAxes based on yAxisID of datasets
     // group datasets by yAxisID
-    let yAxisIDs = {}
-    datasets.forEach((dataset) {
+    var yAxisIDs = {}
+    datasets.forEach(function (dataset) {
       if (!yAxisIDs.hasOwnProperty(dataset.yAxisID)) {
         yAxisIDs[dataset.yAxisID] = []
       }
@@ -536,11 +536,11 @@ export default class Chart_ extends React.Component
     })
 
     // Axes is plural of axis
-    let yAxes = []
-    for (let yAxisId in yAxisIDs) {
+    var yAxes = []
+    for (var yAxisId in yAxisIDs) {
       if (yAxisIDs.hasOwnProperty(yAxisId)) {
-        let axesDatasets = yAxisIDs[yAxisId]
-        let yAxis = getYAxes(yAxisId, axesDatasets)
+        var axesDatasets = yAxisIDs[yAxisId]
+        var yAxis = getYAxes(yAxisId, axesDatasets)
         yAxes.push(yAxis)
       }
     }
@@ -551,22 +551,22 @@ export default class Chart_ extends React.Component
     }
   }
 
-  setInteraction (options, mode) {
-    let interaction = {
+  function setInteraction (options, mode) {
+    var interaction = {
       // pick nearest value for datasets on x axis
       mode: mode,
       axis: 'x',
       // intersection of mouse is not required. Always show hover points and tooltips
       intersect: false
     }
-    Object.keys(interaction).map((key) {
-      let value = interaction[key]
+    Object.keys(interaction).map(function (key) {
+      var value = interaction[key]
       options.hover[key] = value
       options.tooltips[key] = value
     })
   }
 
-  areSameLength (datasets) {
+  function areSameLength (datasets) {
     if (!datasets) {
       return false
     }
@@ -575,8 +575,8 @@ export default class Chart_ extends React.Component
       return true
     }
 
-    let len = datasets[0].data.length
-    for (let i = 1; i < datasets.length; i++) {
+    var len = datasets[0].data.length
+    for (var i = 1; i < datasets.length; i++) {
       if (datasets[i].data.length !== len) {
         return false
       }
@@ -584,15 +584,15 @@ export default class Chart_ extends React.Component
     return true
   }
 
-  updateChart (chart, state) {
+  function updateChart (chart, state) {
     if (state.rawDatasets.length === 0 || state.metrics.length === 0) return
 
-    let chartData = getDataForChart(state)
+    var chartData = getDataForChart(state)
     chart.data.datasets = chartData.datasets
     chart.options.scales.yAxes = chartData.yAxes
 
     // Set interaction mode
-    let mode = areSameLength(chartData.datasets) ? 'index' : 'nearest'
+    var mode = areSameLength(chartData.datasets) ? 'index' : 'nearest'
     setInteraction(chart.options, mode)
 
     chart.update()
@@ -600,19 +600,19 @@ export default class Chart_ extends React.Component
   }
 
   // Functions for selecting elements
-  getCompanyInfo () {
-    let infoEl = document.getElementById('company-info')
-    let companyId = infoEl.getAttribute('data-company-id')
-    let isConsolidated = infoEl.getAttribute('data-consolidated')
+  function getCompanyInfo () {
+    var infoEl = document.getElementById('company-info')
+    var companyId = infoEl.getAttribute('data-company-id')
+    var isConsolidated = infoEl.getAttribute('data-consolidated')
     return {
       companyId: companyId,
       isConsolidated: isConsolidated
     }
   }
 
-  getRawDatasets (days, metrics, callback) {
-    let info = getCompanyInfo()
-    let params = {
+  function getRawDatasets (days, metrics, callback) {
+    var info = getCompanyInfo()
+    var params = {
       companyId: info.companyId,
       q: metrics.join('-'),
       days: days
@@ -620,25 +620,25 @@ export default class Chart_ extends React.Component
     if (info.isConsolidated) {
       params['consolidated'] = 'true'
     }
-    let url = Utils.getUrl('getChartMetric', params)
-    Utils.ajax(url, (response) {
+    var url = Utils.getUrl('getChartMetric', params)
+    Utils.ajax(url, function (response) {
       response = JSON.parse(response)
       callback(response.datasets)
     })
   }
 
   // functions for setting periods
-  updatePeriodIndicator (activeDays) {
-    let options = document.querySelectorAll('[data-set-chart-days]')
-    options.forEach((option) {
-      let optionDays = option.getAttribute('data-set-chart-days')
+  function updatePeriodIndicator (activeDays) {
+    var options = document.querySelectorAll('[data-set-chart-days]')
+    options.forEach(function (option) {
+      var optionDays = option.getAttribute('data-set-chart-days')
       if (optionDays === activeDays) option.classList.add('active')
       else option.classList.remove('active')
     })
   }
 
-  handleActiveDays (chart, state, newDays) {
-    getRawDatasets(newDays, state.metrics, (rawDatasets) {
+  function handleActiveDays (chart, state, newDays) {
+    getRawDatasets(newDays, state.metrics, function (rawDatasets) {
       state.rawDatasets = rawDatasets
       state.days = newDays
       updateChart(chart, state)
@@ -646,78 +646,72 @@ export default class Chart_ extends React.Component
     })
   }
 
-  activateSetPeriodButtons (chart, state) {
-    let options = document.querySelectorAll('[data-set-chart-days]')
-    options.forEach((option) {
-      let optionDays = option.getAttribute('data-set-chart-days')
-      option.addEventListener('click', (event) {
+  function activateSetPeriodButtons (chart, state) {
+    var options = document.querySelectorAll('[data-set-chart-days]')
+    options.forEach(function (option) {
+      var optionDays = option.getAttribute('data-set-chart-days')
+      option.addEventListener('click', function (event) {
         handleActiveDays(chart, state, optionDays)
       })
     })
   }
 
   // Functions for plotting metrics
-  updateMeticsIndicator (metrics) {
-    let options = document.querySelectorAll('[data-set-chart-metrics]')
-    options.forEach((option) {
-      let optionMetics = option.getAttribute('data-set-chart-metrics')
+  function updateMeticsIndicator (metrics) {
+    var options = document.querySelectorAll('[data-set-chart-metrics]')
+    options.forEach(function (option) {
+      var optionMetics = option.getAttribute('data-set-chart-metrics')
       if (optionMetics === metrics) option.classList.add('active')
       else option.classList.remove('active')
     })
   }
 
-  handleActiveMetrics (chart, state, optionMetrics) {
-    let metrics = optionMetrics.split('-')
-    let days = state.days
+  function handleActiveMetrics (chart, state, optionMetrics) {
+    var metrics = optionMetrics.split('-')
+    var days = state.days
     // open all charts except price for max period
     if (metrics.indexOf('Quarter Sales') >= 0) {
       days = '10000'
     } else if (metrics.indexOf('Price to Earning') >= 0) {
       days = '1825'
     }
-    this.getRawDatasets(days, metrics, (rawDatasets) {
+    getRawDatasets(days, metrics, function (rawDatasets) {
       state.rawDatasets = rawDatasets
       state.metrics = metrics
-      this.updateChart(chart, state)
-      this.updateMeticsIndicator(optionMetrics)
-      this.updatePeriodIndicator(days)
+      updateChart(chart, state)
+      updateMeticsIndicator(optionMetrics)
+      updatePeriodIndicator(days)
     })
   }
 
-  activateSetMetrics (chart, state) {
-    let options = document.querySelectorAll('[data-set-chart-metrics]')
-    options.forEach((option) {
-      let metrics = option.getAttribute('data-set-chart-metrics')
-      option.addEventListener('click', (event) {
+  function activateSetMetrics (chart, state) {
+    var options = document.querySelectorAll('[data-set-chart-metrics]')
+    options.forEach(function (option) {
+      var metrics = option.getAttribute('data-set-chart-metrics')
+      option.addEventListener('click', function (event) {
         handleActiveMetrics(chart, state, metrics)
       })
     })
   }
 
-  setUpEverything () {
+  function setUpEverything () {
     // set and load data for last 365 days
-    let state = {
+    var state = {
       days: '365',
       metrics: ['Price', 'SMA50', 'SMA200', 'Volume'],
       rawDatasets: []
     }
-    this.getRawDatasets(state.days, state.metrics, (rawDatasets) {
+    getRawDatasets(state.days, state.metrics, function (rawDatasets) {
       state.rawDatasets = rawDatasets
       // render first chart
-      let target = document.getElementById('canvas-chart-holder')
-      let chart = drawChart(target, getDataForChart(state))
+      var target = document.getElementById('canvas-chart-holder')
+      var chart = drawChart(target, getDataForChart(state))
 
       // add listeners for buttons periods and adding new metrics
-      this.activateSetPeriodButtons(chart, state)
-      this.activateSetMetrics(chart, state)
+      activateSetPeriodButtons(chart, state)
+      activateSetMetrics(chart, state)
     })
   }
 
-  render(){
-    this.setUpEverything();
-    return(
-      "loading"
-    );
-  }
-
-}
+  setUpEverything()
+})()
