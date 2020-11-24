@@ -1,1 +1,1 @@
-export const APP_NAME = 'STOCK';
+export const APP_NAME = 'Sunfloweebiztech  Stock';

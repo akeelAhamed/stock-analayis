@@ -54,7 +54,7 @@ export default class Utill
         let chart = this.lsGet('chart');
         if(chart !== null){
             let now = new Date();
-            if(this.timeDiff(chart.date, now.getTime()) > 50000){
+            if(this.timeDiff(chart.date, now.getTime()) > 15){
                 return true;
             }
             return false;

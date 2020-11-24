@@ -49,10 +49,11 @@ export default class Content extends React.Component
                     <Card
                         backgroundColor="white"
                         elevation={3}
-                        height={600}
+                        height={650}
                         display="flex"
                         alignItems="center"
                         justifyContent="center"
+                        paddingTop={50}
                     >
                         <Chart/>
                     </Card>

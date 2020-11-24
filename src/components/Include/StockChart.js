@@ -96,7 +96,7 @@ export default class StockChart extends React.Component {
         };
 
         return (
-            <div>
+            <div style={{overflow: 'auto',marginBottom: '2em'}}>
                 <ReactHighcharts config = {configVolume}></ReactHighcharts>
             </div>
         )

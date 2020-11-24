@@ -16,6 +16,7 @@
 
 .absolute{
   position: absolute;
+  z-index: 1;
 }
 .top-right{
   margin-top: 10px;

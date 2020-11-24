@@ -24,7 +24,7 @@ export default class Chart extends React.Component
             _10y  : '10Yr',
             _max  : 'Max'
         },
-        range   : '_max', // 1m
+        range   : '_3m', // 1m
         rangeD  : '_max', // Default range
         metrics : ['Price', 'SMA50', 'SMA200', 'Volume'],
         rawDatasets: []
@@ -53,7 +53,7 @@ export default class Chart extends React.Component
           date: date.getTime(),
           data: response.data
         }));
-        callback(response.data);
+        callback(response);
       })
     }else{
       return callback(Utill.getChart());
@@ -62,10 +62,7 @@ export default class Chart extends React.Component
 
   componentDidMount(){
     this.chart((arg) => {
-      console.log(arg);
-      setTimeout(() => {
-        this.setState({data: arg.data});
-      }, 1000);
+      this.setState({data: arg.data});
     })
   }
 
@@ -75,7 +72,7 @@ export default class Chart extends React.Component
     }
     
     return(
-      <StockChart style={{height:'100%', width:'100%'}} data={Utill.chartData(this.state.data.chart)} />
+      <StockChart data={Utill.chartData(this.state.data.chart)} />
     );
   }
 
