@@ -54,11 +54,12 @@ export default class Utill
         let chart = this.lsGet('chart');
         if(chart !== null){
             let now = new Date();
-            if(this.timeDiff(chart.date, now.getTime()) > 500000){
+            if(this.timeDiff(chart.date, now.getTime()) > 50000){
                 return true;
             }
+            return false;
         }
-        return false;
+        return true;
     }
 
     static getChart(){
@@ -67,7 +68,6 @@ export default class Utill
 
     static chartData(rawData){
         let cData = [];
-        console.log(rawData);
         for (let i = 0; i < rawData.length; i++) {
             const element = rawData[i];
             const date = new Date(element.date);

@@ -21,7 +21,6 @@
   "browserslist": {
     "production": [
       ">0.2%",
-      "not dead",
       "not op_mini all"
     ],
     "development": [
@@ -33,13 +32,11 @@
   "dependencies": {
     "axios": "^0.17.1",
     "evergreen-ui": "5.1.2",
-    "highcharts": "^8.2.2",
-    "highcharts-react-official": "^3.0.0",
     "moment": "^2.29.1",
-    "react": "^16.2.0",
-    "react-dom": "^16.2.0",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
     "react-highcharts": "^16.1.0",
-    "react-scripts": "1.1.0",
+    "react-scripts": "3.4.3",
     "web-vitals": "^1.0.1"
   }
 }

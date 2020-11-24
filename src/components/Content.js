@@ -2,6 +2,7 @@ import React from "react";
 import { Pane, Heading, Card, TextInput, Button} from 'evergreen-ui';
 import { ExportIcon, PlusIcon, DocumentShareIcon, EditIcon } from "evergreen-ui";
 import Chart from "./Chart";
+import PLSheet from "./PLSheet";
 
 export default class Content extends React.Component
 {
@@ -33,201 +34,10 @@ export default class Content extends React.Component
                         </Pane>
 
                         <Pane paddingX={20} paddingBottom={20}>
-                            <div className="company-info">
-                                <div className="company-profile">
-                                    <div className="company-profile-about">
-                                        <div className="title">About</div>
-                                        <p>Reliance Industries is engaged in activities spanning across hydrocarbon exploration and production,
-                                            petroleum refining and marketing, petrochemicals, retail, digital services and financial services.</p>
-                                    </div>
-                                </div>
-
-                                <div className="company-ratios">
-                                    <ul id="top-ratios">
-
-                                        <li className="flex flex-space-between" data-source="default">
-                                            <span className="name">
-
-                                                Market Cap
-
-                                            </span>
-
-
-
-                                            <span className="nowrap value">
-
-                                                ₹
-
-                                                <span className="number">1,247,649</span>
-
-                                                Cr.
-
-                                            </span>
-
-                                        </li>
-
-                                        <li className="flex flex-space-between" data-source="default">
-                                            <span className="name">
-
-                                                Current Price
-
-                                            </span>
-
-
-
-                                            <span className="nowrap value">
-
-                                                ₹
-
-                                                <span className="number">1,900</span>
-
-                                            </span>
-
-                                        </li>
-
-                                        <li className="flex flex-space-between" data-source="default">
-                                            <span className="name">
-
-                                                High / Low
-
-                                            </span>
-
-
-
-                                            <span className="nowrap value">₹ <span className="number">2,369</span> / <span
-                                                    className="number">867</span></span>
-
-                                        </li>
-
-                                        <li className="flex flex-space-between" data-source="default">
-                                            <span className="name">
-
-                                                Stock P/E
-
-                                            </span>
-
-
-
-                                            <span className="nowrap value">
-
-                                                <span className="number">30.6</span>
-
-                                            </span>
-
-                                        </li>
-
-                                        <li className="flex flex-space-between" data-source="default">
-                                            <span className="name">
-
-                                                Book Value
-
-                                            </span>
-
-
-
-                                            <span className="nowrap value">
-
-                                                ₹
-
-                                                <span className="number">968</span>
-
-                                            </span>
-
-                                        </li>
-
-                                        <li className="flex flex-space-between" data-source="default">
-                                            <span className="name">
-
-                                                Dividend Yield
-
-                                            </span>
-
-
-
-                                            <span className="nowrap value">
-
-                                                <span className="number">0.34</span>
-
-                                                %
-
-                                            </span>
-
-                                        </li>
-
-                                        <li className="flex flex-space-between" data-source="default">
-                                            <span className="name">
-
-                                                ROCE
-
-                                            </span>
-
-
-
-                                            <span className="nowrap value">
-
-                                                <span className="number">10.7</span>
-
-                                                %
-
-                                            </span>
-
-                                        </li>
-
-                                        <li className="flex flex-space-between" data-source="default">
-                                            <span className="name">
-
-                                                ROE
-
-                                            </span>
-
-
-
-                                            <span className="nowrap value">
-
-                                                <span className="number">10.3</span>
-
-                                                %
-
-                                            </span>
-
-                                        </li>
-
-                                        <li className="flex flex-space-between" data-source="default">
-                                            <span className="name">
-
-                                                Face Value
-
-                                            </span>
-
-
-
-                                            <span className="nowrap value">
-
-                                                ₹
-
-                                                <span className="number">10.0</span>
-
-                                            </span>
-
-                                        </li>
-
-
-                                    </ul>
-
-                                    <div style={{marginTop: "32px"}}>
-                                        <label htmlFor="quick-ratio-search">Add ratio to table</label>
-
-                                        <Pane display="flex">
-                                            <div className="dropdown-typeahead flex-grow" style={{maxWidth: 480}}>
-                                                <TextInput
-                                                    name="text-input-name"
-                                                    placeholder="Text input placeholder..."
-                                                />
-                                            </div>
-
-                                            <Button appearance="minimal" iconBefore={EditIcon}>Edit ratios</Button>
-                                        </Pane>
-                                    </div>
+                            <div className="company-profile">
+                                <div className="company-profile-about">
+                                    <div className="title">About</div>
+                                    <p>Reliance Industries is engaged in activities spanning across hydrocarbon exploration and production, petroleum refining and marketing, petrochemicals, retail, digital services and financial services.</p>
                                 </div>
                             </div>
                         </Pane>
@@ -235,6 +45,7 @@ export default class Content extends React.Component
                 </Pane>
 
                 <Pane flex="1" marginX={16} padding={16}>
+                    <PLSheet/>
                     <Card
                         backgroundColor="white"
                         elevation={3}
@@ -244,6 +55,200 @@ export default class Content extends React.Component
                         justifyContent="center"
                     >
                         <Chart/>
+                    </Card>
+                </Pane>
+
+                <Pane marginX={16} padding={16}>
+                    <Card elevation={3} padding={20} backgroundColor="white">
+                        <div className="company-info">
+                            <div className="company-ratios">
+                                <ul id="top-ratios">
+
+                                    <li className="flex flex-space-between" data-source="default">
+                                        <span className="name">
+
+                                            Market Cap
+
+                                        </span>
+
+
+
+                                        <span className="nowrap value">
+
+                                            ₹
+
+                                            <span className="number">1,247,649</span>
+
+                                            Cr.
+
+                                        </span>
+
+                                    </li>
+
+                                    <li className="flex flex-space-between" data-source="default">
+                                        <span className="name">
+
+                                            Current Price
+
+                                        </span>
+
+
+
+                                        <span className="nowrap value">
+
+                                            ₹
+
+                                            <span className="number">1,900</span>
+
+                                        </span>
+
+                                    </li>
+
+                                    <li className="flex flex-space-between" data-source="default">
+                                        <span className="name">
+
+                                            High / Low
+
+                                        </span>
+
+
+
+                                        <span className="nowrap value">₹ <span className="number">2,369</span> / <span
+                                                className="number">867</span></span>
+
+                                    </li>
+
+                                    <li className="flex flex-space-between" data-source="default">
+                                        <span className="name">
+
+                                            Stock P/E
+
+                                        </span>
+
+
+
+                                        <span className="nowrap value">
+
+                                            <span className="number">30.6</span>
+
+                                        </span>
+
+                                    </li>
+
+                                    <li className="flex flex-space-between" data-source="default">
+                                        <span className="name">
+
+                                            Book Value
+
+                                        </span>
+
+
+
+                                        <span className="nowrap value">
+
+                                            ₹
+
+                                            <span className="number">968</span>
+
+                                        </span>
+
+                                    </li>
+
+                                    <li className="flex flex-space-between" data-source="default">
+                                        <span className="name">
+
+                                            Dividend Yield
+
+                                        </span>
+
+
+
+                                        <span className="nowrap value">
+
+                                            <span className="number">0.34</span>
+
+                                            %
+
+                                        </span>
+
+                                    </li>
+
+                                    <li className="flex flex-space-between" data-source="default">
+                                        <span className="name">
+
+                                            ROCE
+
+                                        </span>
+
+
+
+                                        <span className="nowrap value">
+
+                                            <span className="number">10.7</span>
+
+                                            %
+
+                                        </span>
+
+                                    </li>
+
+                                    <li className="flex flex-space-between" data-source="default">
+                                        <span className="name">
+
+                                            ROE
+
+                                        </span>
+
+
+
+                                        <span className="nowrap value">
+
+                                            <span className="number">10.3</span>
+
+                                            %
+
+                                        </span>
+
+                                    </li>
+
+                                    <li className="flex flex-space-between" data-source="default">
+                                        <span className="name">
+
+                                            Face Value
+
+                                        </span>
+
+
+
+                                        <span className="nowrap value">
+
+                                            ₹
+
+                                            <span className="number">10.0</span>
+
+                                        </span>
+
+                                    </li>
+
+
+                                </ul>
+
+                                <div style={{marginTop: "32px"}}>
+                                    <label htmlFor="quick-ratio-search">Add ratio to table</label>
+
+                                    <Pane display="flex">
+                                        <div className="dropdown-typeahead flex-grow" style={{maxWidth: 480}}>
+                                            <TextInput
+                                                name="text-input-name"
+                                                placeholder="Text input placeholder..."
+                                            />
+                                        </div>
+
+                                        <Button appearance="minimal" iconBefore={EditIcon}>Edit ratios</Button>
+                                    </Pane>
+                                </div>
+                            </div>
+                        </div>
                     </Card>
                 </Pane>
             </div>

@@ -24,8 +24,8 @@ export default class Chart extends React.Component
             _10y  : '10Yr',
             _max  : 'Max'
         },
-        range   : '_1y', // 1m
-        rangeD  : '_1y', // 1m
+        range   : '_max', // 1m
+        rangeD  : '_max', // Default range
         metrics : ['Price', 'SMA50', 'SMA200', 'Volume'],
         rawDatasets: []
     };
@@ -62,7 +62,10 @@ export default class Chart extends React.Component
 
   componentDidMount(){
     this.chart((arg) => {
-      this.setState({data: arg.data});
+      console.log(arg);
+      setTimeout(() => {
+        this.setState({data: arg.data});
+      }, 1000);
     })
   }
 
