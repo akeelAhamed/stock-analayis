@@ -128,8 +128,7 @@ export default class Table1 extends React.Component
     }
 
     getRow(data, i){
-        console.log(data, i);
-        let body = [<Table.TextCell>{++i}</Table.TextCell>];
+        let body = [<Table.TextCell key={i}>{++i}</Table.TextCell>];
         for (const key in data) {
             const element = data[key];
             body.push(
@@ -143,12 +142,12 @@ export default class Table1 extends React.Component
 
     render(){
         return(
-            <div className="content">
-                <Pane flex="1" margin={16} padding={16}>
+            <>
+                <Pane flex="1" margin={16} padding={16} id="average">
                     <Card elevation={3} backgroundColor="white">
-                        <Pane display="flex" padding={20} paddingBottom={0}>
+                        <Pane display="flex" padding={20}>
                             <Pane flex={1}>
-                                <Heading size={900}>Purchase Price/ Average Pricing</Heading>
+                                <Heading size={600}>Purchase Price/ Average Pricing</Heading>
                             </Pane>
                         </Pane>
 
@@ -172,8 +171,271 @@ export default class Table1 extends React.Component
                             </Table>
                         </Pane>
                     </Card>
-                </Pane>    
-            </div>
+                </Pane>
+
+                <Pane flex="1" margin={16} padding={16} id="purchase-price">
+                    <Card elevation={3} backgroundColor="white">
+                        <Pane display="flex" padding={20}>
+                            <Pane flex={1}>
+                                <Heading size={600}>Purchase Pricing Price – Buy/ Sell</Heading>
+                            </Pane>
+                        </Pane>
+
+                        <Pane paddingX={20} paddingBottom={20}>
+                            <Table>
+                                <Table.Head>
+                                    <Table.TextHeaderCell>
+                                    Current Price
+                                    </Table.TextHeaderCell>
+                                    <Table.TextHeaderCell>
+                                    H/L Average
+                                    </Table.TextHeaderCell>
+                                    <Table.TextHeaderCell>
+                                    Purchase Price
+                                    </Table.TextHeaderCell>
+                                    <Table.TextHeaderCell>
+                                    3 Year - H/L
+                                    </Table.TextHeaderCell>
+                                    <Table.TextHeaderCell>
+                                    3 Year Avg
+                                    </Table.TextHeaderCell>
+                                </Table.Head>
+                                <Table.Body height={120}>
+                                    <Table.Row>
+                                        <Table.TextCell>
+                                        1946.7
+                                        </Table.TextCell>
+                                        <Table.TextCell>
+                                        -2.40%
+                                        </Table.TextCell>
+                                        <Table.TextCell>
+                                        ₹ 2,074.37
+                                        </Table.TextCell>
+                                        <Table.TextCell>
+                                        <Table>
+                                            <Table.Body>
+                                                <Table.Row>
+                                                    <Table.TextCell>
+                                                    874
+                                                    </Table.TextCell>
+                                                    <Table.TextCell>
+                                                    2320
+                                                    </Table.TextCell>
+                                                </Table.Row>
+                                            </Table.Body>
+                                        </Table>
+                                        </Table.TextCell>
+                                        <Table.TextCell>
+                                        1597
+                                        </Table.TextCell>
+                                    </Table.Row>
+                                </Table.Body>
+                            </Table>
+                        </Pane>
+                    </Card>
+                </Pane>
+            
+                <Pane flex="1" margin={16} padding={16} id="intrinsic">
+                    <Card elevation={3} backgroundColor="white">
+                        <Pane display="flex" padding={20}>
+                            <Pane flex={1}>
+                                <Heading size={600}>Intrinsic Value</Heading>
+                            </Pane>
+                        </Pane>
+
+                        <Pane paddingX={20} paddingBottom={20}>
+                            <Table>
+                                <Table.Head>
+                                    <Table.TextHeaderCell>
+                                    PV
+                                    </Table.TextHeaderCell>
+                                    <Table.TextHeaderCell>
+                                    NPV
+                                    </Table.TextHeaderCell>
+                                    <Table.TextHeaderCell>
+                                    AVG. PRICE
+                                    </Table.TextHeaderCell>
+                                    <Table.TextHeaderCell>
+                                    IRR
+                                    </Table.TextHeaderCell>
+                                </Table.Head>
+                                <Table.Body height={120}>
+                                    <Table.Row>
+                                        <Table.TextCell>
+                                        1661.44279
+                                        </Table.TextCell>
+                                        <Table.TextCell>
+                                        <Table>
+                                            <Table.Body>
+                                                <Table.Row>
+                                                    <Table.TextCell>
+                                                    ₹ 412.92
+                                                    </Table.TextCell>
+                                                    <Table.TextCell>
+                                                    2074.365913
+                                                    </Table.TextCell>
+                                                </Table.Row>
+                                            </Table.Body>
+                                        </Table>
+                                        </Table.TextCell>
+                                        <Table.TextCell>
+                                        1994.582609
+                                        </Table.TextCell>
+                                        <Table.TextCell>
+                                        9%
+                                        </Table.TextCell>
+                                    </Table.Row>
+                                </Table.Body>
+                            </Table>
+                        </Pane>
+                    </Card>
+                </Pane>
+
+                <Pane flex="1" margin={16} padding={16} id="daily-equity-updates">
+                    <Card elevation={3} backgroundColor="white">
+                        <Pane display="flex" padding={20}>
+                            <Pane flex={1}>
+                                <Heading size={600}>Daily Equity Updates – H/L</Heading>
+                            </Pane>
+                        </Pane>
+
+                        <Pane paddingX={20} paddingBottom={20}>
+                            <Table>
+                                <Table.Head>
+                                    <Table.TextHeaderCell>
+                                    DATE
+                                    </Table.TextHeaderCell>
+                                    <Table.TextHeaderCell>
+                                    PARTICULAR
+                                    </Table.TextHeaderCell>
+                                    <Table.TextHeaderCell>
+                                    Reliance
+                                    </Table.TextHeaderCell>
+                                </Table.Head>
+                                <Table.Body height={120}>
+                                    <Table.Row>
+                                        <Table.TextCell>
+                                        Dec-20
+                                        </Table.TextCell>
+                                        <Table.TextCell>
+                                        Minimum
+                                        </Table.TextCell>
+                                        <Table.TextCell>
+                                        <Table>
+                                            <Table.Body>
+                                                <Table.Row>
+                                                    <Table.TextCell>
+                                                    1940.3
+                                                    </Table.TextCell>
+                                                    <Table.TextCell>
+                                                    -0.15%
+                                                    </Table.TextCell>
+                                                </Table.Row>
+                                            </Table.Body>
+                                        </Table>
+                                        </Table.TextCell>
+                                    </Table.Row>
+                                    <Table.Row>
+                                        <Table.TextCell>
+                                        
+                                        </Table.TextCell>
+                                        <Table.TextCell>
+                                        Minimum
+                                        </Table.TextCell>
+                                        <Table.TextCell>
+                                        <Table>
+                                            <Table.Body>
+                                                <Table.Row>
+                                                    <Table.TextCell>
+                                                    1972
+                                                    </Table.TextCell>
+                                                    <Table.TextCell>
+                                                    -1.61%
+                                                    </Table.TextCell>
+                                                </Table.Row>
+                                            </Table.Body>
+                                        </Table>
+                                        </Table.TextCell>
+                                    </Table.Row>
+                                </Table.Body>
+                            </Table>
+                        </Pane>
+                    </Card>
+                </Pane>
+
+                <Pane flex="1" margin={16} padding={16} id="purchase-price-comparison">
+                    <Card elevation={3} backgroundColor="white">
+                        <Pane display="flex" padding={20}>
+                            <Pane flex={1}>
+                                <Heading size={600}>Purchase Price Comparison H/L</Heading>
+                            </Pane>
+                        </Pane>
+
+                        <Pane paddingX={20} paddingBottom={20}>
+                            <Table>
+                                <Table.Head>
+                                    <Table.TextHeaderCell>
+                                    DATE
+                                    </Table.TextHeaderCell>
+                                    <Table.TextHeaderCell>
+                                    PARTICULAR
+                                    </Table.TextHeaderCell>
+                                    <Table.TextHeaderCell>
+                                    Reliance
+                                    </Table.TextHeaderCell>
+                                </Table.Head>
+                                <Table.Body height={120}>
+                                    <Table.Row>
+                                        <Table.TextCell>
+                                        Dec-20
+                                        </Table.TextCell>
+                                        <Table.TextCell>
+                                        Minimum
+                                        </Table.TextCell>
+                                        <Table.TextCell>
+                                        <Table>
+                                            <Table.Body>
+                                                <Table.Row>
+                                                    <Table.TextCell>
+                                                    1940.3
+                                                    </Table.TextCell>
+                                                    <Table.TextCell>
+                                                    -1.13%
+                                                    </Table.TextCell>
+                                                </Table.Row>
+                                            </Table.Body>
+                                        </Table>
+                                        </Table.TextCell>
+                                    </Table.Row>
+                                    <Table.Row>
+                                        <Table.TextCell>
+                                        
+                                        </Table.TextCell>
+                                        <Table.TextCell>
+                                        Minimum
+                                        </Table.TextCell>
+                                        <Table.TextCell>
+                                        <Table>
+                                            <Table.Body>
+                                                <Table.Row>
+                                                    <Table.TextCell>
+                                                    1972
+                                                    </Table.TextCell>
+                                                    <Table.TextCell>
+                                                    -2.72%
+                                                    </Table.TextCell>
+                                                </Table.Row>
+                                            </Table.Body>
+                                        </Table>
+                                        </Table.TextCell>
+                                    </Table.Row>
+                                </Table.Body>
+                            </Table>
+                        </Pane>
+                    </Card>
+                </Pane>
+            
+            </>
         )
     }
 

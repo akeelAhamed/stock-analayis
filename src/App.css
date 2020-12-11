@@ -1,3 +1,6 @@
+html {
+  scroll-behavior: smooth;
+}
 .app-wrapper{
   min-height: 100vh;
   background: rgb(238 241 247);
@@ -22,6 +25,14 @@
   margin-top: 10px;
   right: 40px;
 }
+.fixed-header{
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+}
+
+.content{margin-top: 100px;}
 
 .company-info {
   display: flex;

@@ -18,7 +18,7 @@ export default class Content extends React.Component
     render(){
         return(
             <div className="content">
-                <Pane flex="1" margin={16} padding={16}>
+                <Pane flex="1" margin={16} padding={16} id="company">
                     <Card elevation={3} backgroundColor="white">
                         <Pane display="flex" padding={20} paddingBottom={0}>
                             <Pane flex={1}>
@@ -45,7 +45,7 @@ export default class Content extends React.Component
                     </Card>
                 </Pane>
 
-                <Pane marginX={16} padding={16}>
+                <Pane marginX={16} padding={16} id="analysis">
                     <Card elevation={3} padding={20} backgroundColor="white">
                         <div className="company-info">
                             <div className="company-ratios">
@@ -239,7 +239,7 @@ export default class Content extends React.Component
                     </Card>
                 </Pane>
             
-                <Pane flex="1" marginX={16} padding={16}>
+                <Pane flex="1" marginX={16} padding={16} id="chart">
                     <PLSheet/>
                     <Card
                         backgroundColor="white"
