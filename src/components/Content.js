@@ -3,6 +3,7 @@ import { Pane, Heading, Card, TextInput, Button} from 'evergreen-ui';
 import { ExportIcon, PlusIcon, DocumentShareIcon, EditIcon } from "evergreen-ui";
 import Chart from "./Chart";
 import PLSheet from "./PLSheet";
+import Table1 from "./Tables/Table1";
 
 export default class Content extends React.Component
 {
@@ -41,21 +42,6 @@ export default class Content extends React.Component
                                 </div>
                             </div>
                         </Pane>
-                    </Card>
-                </Pane>
-
-                <Pane flex="1" marginX={16} padding={16}>
-                    <PLSheet/>
-                    <Card
-                        backgroundColor="white"
-                        elevation={3}
-                        height={650}
-                        display="flex"
-                        alignItems="center"
-                        justifyContent="center"
-                        paddingTop={50}
-                    >
-                        <Chart/>
                     </Card>
                 </Pane>
 
@@ -252,6 +238,23 @@ export default class Content extends React.Component
                         </div>
                     </Card>
                 </Pane>
+            
+                <Pane flex="1" marginX={16} padding={16}>
+                    <PLSheet/>
+                    <Card
+                        backgroundColor="white"
+                        elevation={3}
+                        height={650}
+                        display="flex"
+                        alignItems="center"
+                        justifyContent="center"
+                        paddingTop={50}
+                    >
+                        <Chart/>
+                    </Card>
+                </Pane>
+
+                <Table1/>
             </div>
         )
     }
